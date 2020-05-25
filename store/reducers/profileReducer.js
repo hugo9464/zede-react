@@ -1,33 +1,39 @@
 
-const initialState = { 
-    isLoggedIn: false,
-    token: ""
+const initialState = {
+    isLoading: true,
+    isSignout: false,
+    userToken: null,
 };
 
-function toggleLoggedIn(state = initialState, action) {
+function manageToken(state = initialState, action) {
     let nextState;
 
     switch (action.type) {
-        case 'TOGGLE_LOGGEDIN':
-
-            if(state.isLoggedIn) {
-                nextState = {
-                    ...state,
-                    isLoggedIn: false,
-                    token: ""
-                }
-            } else {
-                nextState = {
-                    ...state,
-                    isLoggedIn: true,
-                    token: action.value
-                }
+        case 'RESTORE_TOKEN':
+            nextState = {
+                ...state,
+                userToken: action.value,
+                isLoading: false,
             }
-
             return nextState || state;
+        case 'SIGN_IN':
+            nextState = {
+                ...state,
+                isSignout: false,
+                userToken: action.value,
+            }
+            return nextState || state;
+        case 'SIGN_OUT':
+            nextState = {
+                ...state,
+                isSignout: true,
+                userToken: null,
+            }
+            return nextState || state;
+
         default:
             return state;
     }
 }
 
-export default toggleLoggedIn
+export default manageToken
