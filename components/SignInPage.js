@@ -2,6 +2,8 @@ import React from 'react'
 import { StyleSheet, View, TextInput, Button } from 'react-native'
 import { connect } from 'react-redux'
 
+import { login } from '../services/user.service'
+
 class SignInPage extends React.Component {
 
     constructor(props) {
@@ -13,10 +15,10 @@ class SignInPage extends React.Component {
     }
 
     signIn() {
-        console.log(this.state.username)
-        const action = { type: "SIGN_IN", value: "dummy-auth-token" }
-        this.props.dispatch(action)
-        console.log(this.props)
+        login(this.state.username, this.state.password).then((authToken) => {
+            const action = { type: "SIGN_IN", value: authToken }
+            this.props.dispatch(action)
+        });
     }
 
     render() {

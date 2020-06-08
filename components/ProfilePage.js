@@ -1,10 +1,8 @@
 import React from 'react'
-import { StyleSheet, View, FlatList, Button } from 'react-native'
+import { StyleSheet, View, Button } from 'react-native'
 
-import WeighingItem from './Weighingitem'
-import WeightPicker from './WeightPicker'
+import { connect } from 'react-redux'
 
-import { getWeighings } from '../services/weighing.service'
 
 class ProfilePage extends React.Component {
 
@@ -13,7 +11,8 @@ class ProfilePage extends React.Component {
     }
 
     logout() {
-        console.log("logout")
+        const action = { type: "SIGN_OUT"}
+        this.props.dispatch(action)
     }
 
     render() {
@@ -32,4 +31,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ProfilePage
+export default connect(null)(ProfilePage)

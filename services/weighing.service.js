@@ -29,6 +29,7 @@ export function saveWeighing(weighing) {
             return json;
         })
         .catch((error) => {
+            console.log('ERROR in weigning service')
             console.log(error)
         })
 }   
