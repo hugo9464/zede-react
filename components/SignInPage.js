@@ -27,10 +27,13 @@ class SignInPage extends React.Component {
                 <TextInput 
                     style={styles.textinput} 
                     placeholder='Email'
+                    textContentType='emailAddress'
                     onChangeText={(text) => this.setState({ username: text})} />
                 <TextInput 
                     style={styles.textinput} 
                     placeholder='Mot de passe'
+                    secureTextEntry={true}
+                    textContentType='password'
                     onChangeText={(text) => this.setState({ password: text})} />
                 <Button style={styles.button} title='Connexion' onPress={() => this.signIn()} />
             </View>

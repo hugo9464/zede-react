@@ -22,13 +22,6 @@ class AppComponent extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log("constructor APP: ")
-        console.log(this.props.userToken)
-    }
-
-    componentDidUpdate() {
-        console.log("componentDidUpdate APP: ")
-        console.log(this.props.userToken)
     }
 
     render() {

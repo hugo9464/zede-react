@@ -16,8 +16,8 @@ export function login(email, password) {
             'Authorization': authorizationHeader,
           }})
         .then((response) => {
-            console.log("Login response : " + response.url)
-            console.log("authorization="+response.headers.get("Authorization"))
+            console.log("--- LOGIN SUCCESSFULL ---")
+            console.log("Authorization="+response.headers.get("Authorization"))
             return response.headers.get("Authorization")
         })
         .catch((error) => {

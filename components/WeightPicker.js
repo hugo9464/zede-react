@@ -5,8 +5,7 @@ import {
     View,
 } from 'react-native';
 
-import { Picker } from '@react-native-community/picker';
-
+import {Picker} from 'react-native'
 export default class WeightPicker extends React.Component {
 
     constructor(props) {
@@ -107,6 +106,6 @@ const styles = StyleSheet.create({
     },
     picker: {
         height: 20,
-        width: 80
+        width: 100
     }
 });
