@@ -27,11 +27,14 @@ class SignInPage extends React.Component {
                 <TextInput 
                     style={styles.textinput} 
                     placeholder='Email'
+                    autoCompleteType='email'
                     textContentType='emailAddress'
+                    keyboardType='email-address'                   
                     onChangeText={(text) => this.setState({ username: text})} />
                 <TextInput 
                     style={styles.textinput} 
                     placeholder='Mot de passe'
+                    autoCompleteType='password'
                     secureTextEntry={true}
                     textContentType='password'
                     onChangeText={(text) => this.setState({ password: text})} />
