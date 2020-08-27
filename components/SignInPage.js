@@ -9,8 +9,8 @@ class SignInPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            username: "",
-            password: ""
+            username: "test@zede.com",
+            password: "azerty"
          };
     }
 
@@ -25,7 +25,7 @@ class SignInPage extends React.Component {
         return (
             <View style={styles.main_container}>
                 <TextInput 
-                    style={styles.textinput} 
+                    style={styles.textinput}
                     placeholder='Email'
                     autoCompleteType='email'
                     textContentType='emailAddress'

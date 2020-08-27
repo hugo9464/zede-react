@@ -1,84 +1,72 @@
-import React from 'react'
-import { StyleSheet, View, Button, Text } from 'react-native'
-import { Card } from 'react-native-material-ui';
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis, VictoryStack } from "victory-native";
 
-import { connect } from 'react-redux'
-import { getSummary } from '../services/weighing.service'
-import { StackedBarChart } from 'react-native-chart-kit'
-import { Dimensions } from "react-native";
+const dataBrown = [
+    { month: "Janvier", total: 3 },
+    { month: "Février", total: 6.5 },
+    { month: "Mars", total: 4.5 },
+    { month: "Avril", total: 9 }
+];
 
-const data = {
-    labels: ["Janvier", "Février", "Mars", "Avril"],
-    legend: ["Ménagère", "Verre", "Recyclage"],
-    data: [
-        [60, 60, 60],
-        [30, 30, 60],
-        [12, 15, 35],
-        [30, 30, 60]
-    ],
-    barColors: ["#A97D25", "#428E14", "#F1EC32"]
-};
+const dataGreen = [
+    { month: "Janvier", total: 13 },
+    { month: "Février", total: 16.5 },
+    { month: "Mars", total: 14.5 },
+    { month: "Avril", total: 19 }
+];
 
-const chartConfig = {
-    backgroundGradientFrom: "red",
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "#118DA9",
-    backgroundGradientToOpacity: 0,
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    labelColor: (opacity = 1) => `rgba(0,0,0, ${opacity})`,
-    strokeWidth: 2, // optional, default 3
-    barPercentage: 0.5,
-    useShadowColorFromDataset: false // optional
-};
+const dataYellow = [
+    { month: "Janvier", total: 2 },
+    { month: "Février", total: 2 },
+    { month: "Mars", total: 3.4 },
+    { month: "Avril", total: 0.8 }
+];
 
-const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height * 70 / 100;
-
-
-class HistoryPage extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            summary: [],
-        };
-    }
-
+export default class App extends React.Component {
     render() {
-
         return (
-            <View style={styles.main_container}>
-                <StackedBarChart
-                    // style={graphStyle}
-                    data={data}
-                    width={screenWidth}
-                    height={screenHeight}
-                    chartConfig={chartConfig}
-                />
+            <View style={styles.container}>
+                <VictoryChart
+                    width={350}
+                    theme={VictoryTheme.material}
+                    domainPadding={20}>
+                    <VictoryAxis
+                    />
+                    <VictoryAxis
+                        dependentAxis
+                        // tickFormat specifies how ticks should be displayed
+                        tickFormat={(x) => (`${x}kg`)}
+                    />
+                    <VictoryStack
+                        colorScale={["brown", "green", "yellow"]}>
+                        <VictoryBar
+                            data={dataBrown}
+                            x={"month"}
+                            y={"total"}
+                        />
+                        <VictoryBar
+                            data={dataGreen}
+                            x={"month"}
+                            y={"total"}
+                        />
+                        <VictoryBar
+                            data={dataYellow}
+                            x={"month"}
+                            y={"total"}
+                        />
+                    </VictoryStack>
+                </VictoryChart>
             </View>
-        )
+        );
     }
 }
 
 const styles = StyleSheet.create({
-    main_container: {
-        height: "100%",
-        justifyContent: "flex-end",
-        alignItems: "center"
-    },
-    weighings_cards: {
-        flexDirection: "row",
-        justifyContent: "space-evenly"
-    },
-    logout_button: {
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#f5fcff"
     }
-})
-
-const mapStateToProps = (state) => {
-    return {
-        userToken: state.userToken
-    }
-}
-
-
-export default connect(mapStateToProps)(HistoryPage)
+});
