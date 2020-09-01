@@ -1,6 +1,7 @@
 const API_URL = "http://78.123.247.250:8080/api";
 const WEIGHING_ROUTE = "/app/weightedwaste/1/"
 const SUMMARY_ROUTE = "summary"
+const OVERVIEW_ROUTE = "overview"
 
 export function getWeighings(userToken) {
     console.log("\ngetting weighings with token="+userToken)
@@ -52,6 +53,22 @@ export function getSummary(userToken) {
         })
         .then((json) => {
             return json.summary;
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+}   
+
+export function getOverview(userToken) {
+    console.log("\ngetting weighings overview with token="+userToken)
+    return fetch(API_URL + WEIGHING_ROUTE + OVERVIEW_ROUTE, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Authorization': userToken,
+        }})
+        .then((response) => {
+            return response.json();
         })
         .catch((error) => {
             console.log(error)

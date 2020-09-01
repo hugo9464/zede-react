@@ -1,59 +1,117 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis, VictoryStack } from "victory-native";
+import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis, VictoryStack, VictoryZoomContainer } from "victory-native";
+import { connect } from 'react-redux'
 
-const dataBrown = [
-    { month: "Janvier", total: 3 },
-    { month: "Février", total: 6.5 },
-    { month: "Mars", total: 4.5 },
-    { month: "Avril", total: 9 }
+import { getOverview } from '../services/weighing.service'
+
+const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+    "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
 ];
 
-const dataGreen = [
-    { month: "Janvier", total: 13 },
-    { month: "Février", total: 16.5 },
-    { month: "Mars", total: 14.5 },
-    { month: "Avril", total: 19 }
-];
+class HistoryPage extends React.Component {
 
-const dataYellow = [
-    { month: "Janvier", total: 2 },
-    { month: "Février", total: 2 },
-    { month: "Mars", total: 3.4 },
-    { month: "Avril", total: 0.8 }
-];
+    constructor(props) {
+        super(props);
+        var emptyData = []
+        this.state = {
+            brownData: [],
+            greenData: []
+        };
+    }
 
-export default class App extends React.Component {
+
+    componentDidMount() {
+        getOverview(this.props.userToken).then((overviewResponse) => {
+            console.log("got frequencies successfully")
+
+            // this.computeFrequencies(overviewResponse.frequencies)
+            this.buildFrequencies(overviewResponse.frequencies)
+
+
+        });
+    }
+
+    buildFrequencies(responseFrequencies) {
+        const brownFrequencies = this.mapFrequencies(responseFrequencies.BLUE)
+        const greenFrequencies = this.mapFrequencies(responseFrequencies.GREEN)
+
+        const firstDate = this.getFirstDate(brownFrequencies[0].x, greenFrequencies[0].x)
+
+        this.setState({
+            greenData: this.buildDataFrequency(greenFrequencies, firstDate),
+            brownData: this.buildDataFrequency(brownFrequencies, firstDate)
+
+        })
+    }
+
+    buildDataFrequency(frequencies, firstDate) {
+        if (frequencies[0].x !== firstDate) {
+            frequencies.unshift({ x: firstDate, y: null })
+        }
+
+        frequencies.forEach(frequency => {
+            const dateAsString = frequency.x.getDate() + "\n" + monthNames[frequency.x.getMonth()]
+            const index = frequencies.indexOf(frequency)
+            frequency = { x: frequency.x, y: frequency.y }
+            frequencies[index] = frequency
+        })
+        return frequencies
+    }
+
+    getFirstDate(brownFirstDate, greenFirstDate) {
+        if (brownFirstDate < greenFirstDate) {
+            return brownFirstDate
+        } else {
+            return greenFirstDate
+        }
+    }
+
+    mapFrequencies(rawFrequencies) {
+        const weighingDates = Object.keys(rawFrequencies)
+        const weighings = Object.values(rawFrequencies)
+        var frequencies = []
+
+        var i
+        for (i = 0; i < weighingDates.length; i++) {
+            const date = new Date(Date.parse(weighingDates[i]))
+            const frequencyValue = weighings[i]
+            const newFrequency = { x: date, y: frequencyValue }
+
+            frequencies.push(newFrequency)
+        }
+
+        return frequencies
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <VictoryChart
-                    width={350}
                     theme={VictoryTheme.material}
-                    domainPadding={20}>
+                    domainPadding={20}
+                    scale={{ x: "time" }}
+                    containerComponent={
+                        <VictoryZoomContainer
+                        zoomDomain={{}}/>
+                      }
+                >
                     <VictoryAxis
                     />
                     <VictoryAxis
                         dependentAxis
-                        // tickFormat specifies how ticks should be displayed
-                        tickFormat={(x) => (`${x}kg`)}
+                        tickFormat={(y) => (`${y / 1000}kg`)}
                     />
                     <VictoryStack
-                        colorScale={["brown", "green", "yellow"]}>
+                        colorScale={["brown", "green", "gold"]}
+                    >
                         <VictoryBar
-                            data={dataBrown}
-                            x={"month"}
-                            y={"total"}
+                            data={this.state.brownData}
+                            width={200}
                         />
                         <VictoryBar
-                            data={dataGreen}
-                            x={"month"}
-                            y={"total"}
-                        />
-                        <VictoryBar
-                            data={dataYellow}
-                            x={"month"}
-                            y={"total"}
+                            data={this.state.greenData}
+                            width={200}
                         />
                     </VictoryStack>
                 </VictoryChart>
@@ -70,3 +128,11 @@ const styles = StyleSheet.create({
         backgroundColor: "#f5fcff"
     }
 });
+
+const mapStateToProps = (state) => {
+    return {
+        userToken: state.userToken
+    }
+}
+
+export default connect(mapStateToProps)(HistoryPage)
