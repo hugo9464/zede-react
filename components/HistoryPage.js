@@ -184,12 +184,13 @@ class HistoryPage extends React.Component {
     getMonthData(fullData) {
         const dates = Object.keys(fullData)
         const weighings = Object.values(fullData)
+        console.log("date="+dates)
         let data = []
         let i
         for (i = 0; i < dates.length; i++) {
             const date = new Date(Date.parse(dates[i]))
             if (date.getMonth() === this.state.selectedMonth - 1) {
-                data.push({ x: date.getDate() % 7, y: weighings[i] })
+                data.push({ x: Math.ceil(date.getDate()/7), y: weighings[i] })
             }
         }
         return data
