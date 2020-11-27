@@ -203,6 +203,7 @@ class HistoryPage extends React.Component {
 
         return (
             <SafeAreaView style={styles.container}>
+                <View style={styles.screen}>
                 <ScrollView style={styles.calendarContainer}>
                     <Calendar
                         onDayPress={(day) => { this.handleSelectedDay(day) }}
@@ -260,6 +261,7 @@ class HistoryPage extends React.Component {
                         />
                     }
                 </View>
+                </View>
             </SafeAreaView>
         );
     }
@@ -267,10 +269,13 @@ class HistoryPage extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        display: 'flex',
-        flex: 1,
         height: '100%',
         backgroundColor: '#57E589'
+    },
+    screen: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-start'
     },
     monthsContainer: {
         backgroundColor: '#000099'
@@ -283,6 +288,7 @@ const styles = StyleSheet.create({
         paddingTop: '5%',
     },
     detailsContainer: {
+        height: '40%',
         borderTopRightRadius: 30,
         borderTopLeftRadius: 30,
         backgroundColor: '#FFFFFA'
@@ -297,8 +303,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 10,
     },
-    chart: {
-    }
 });
 
 const mapStateToProps = (state) => {

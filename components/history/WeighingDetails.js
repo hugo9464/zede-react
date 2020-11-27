@@ -7,7 +7,7 @@ class WeighingDetails extends React.Component {
 
     render() {
         return (
-            <SafeAreaView style={styles.mainContainer}>
+            <View style={styles.mainContainer}>
                 <Text style={styles.date}>{this.props.weighingDate}</Text>
                 <Text style={styles.total}>{this.props.totalWeight} kg</Text>
                 <View style={styles.weightDetails}>
@@ -26,7 +26,7 @@ class WeighingDetails extends React.Component {
                     >
                     <Text style={styles.backText}>Retour au graphique</Text>
                 </TouchableOpacity>
-            </SafeAreaView>
+            </View>
         )   
     }
 }
@@ -35,12 +35,13 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-around',
         alignItems: 'center',
     },
     date: {
         fontFamily: 'VentiCF-Ultra',
-        fontSize: 32
+        fontSize: 25,
+        marginTop: 10
     },
     total: {
         fontFamily: 'VentiCF-Thin',
@@ -54,9 +55,6 @@ const styles = StyleSheet.create({
         fontFamily: 'VentiCF-Medium',
         fontSize: 15,
         marginLeft: 50
-    },
-    weightDetails: {
-        marginTop: 20
     },
     weightContainer: {
         flexDirection: 'row',
