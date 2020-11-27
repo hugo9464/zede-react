@@ -27,10 +27,6 @@ class   MonthlyChart extends React.Component {
     }
 
     render() {
-        console.log("brown data")
-        console.log(this.props.brownData)
-        console.log(this.props.greenData)
-
         return (
                 <VictoryChart
                     height={200}

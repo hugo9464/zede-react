@@ -184,7 +184,6 @@ class HistoryPage extends React.Component {
     getMonthData(fullData) {
         const dates = Object.keys(fullData)
         const weighings = Object.values(fullData)
-        console.log("date="+dates)
         let data = []
         let i
         for (i = 0; i < dates.length; i++) {
