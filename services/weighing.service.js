@@ -31,7 +31,6 @@ export function saveWeighing(weighing, userToken) {
           'Content-Type': 'application/json',
           'Authorization': userToken,
         },
-        //TODO: envoyer les bonnes infos
         body : JSON.stringify(weighing)})
         .then((response) => console.log("status code="+response.status))
         .catch((error) => {

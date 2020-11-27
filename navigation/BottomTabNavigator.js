@@ -1,10 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 
-import TabBarIcon from '../components/TabBarIcon';
+import AntDesignIcon from '../components/icons/AntDesignIcon';
+import IoniconsIcon from '../components/icons/IoniconsIcon'
 import WeighingScreen from '../screens/WeighingScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import HistoryScreen from '../screens/HistoryScreen';
+import { Ionicons } from '@expo/vector-icons';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -16,13 +18,17 @@ export default function BottomTabNavigator({ navigation, route }) {
   navigation.setOptions({ headerTitle: getHeaderTitle(route) });
 
   return (
-    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
+    <BottomTab.Navigator 
+      initialRouteName={INITIAL_ROUTE_NAME}
+      tabBarOptions={{
+        activeTintColor: '#54e48c',
+      }}>
       <BottomTab.Screen
         name="Weighing"
         component={WeighingScreen}
         options={{
           title: 'Pesées',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-code-working" />,
+          tabBarIcon: ({ focused }) => <IoniconsIcon focused={focused} name="md-trash" />,
         }}
       />
       <BottomTab.Screen
@@ -30,15 +36,15 @@ export default function BottomTabNavigator({ navigation, route }) {
         component={HistoryScreen}
         options={{
           title: 'Historique',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
+          tabBarIcon: ({ focused }) => <AntDesignIcon focused={focused} name="linechart" />,
         }}
       />
       <BottomTab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
-          title: 'Profil',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
+          title: 'Mon compte',
+          tabBarIcon: ({ focused }) => <IoniconsIcon focused={focused} name="md-contact" />,
         }}
       />
     </BottomTab.Navigator>

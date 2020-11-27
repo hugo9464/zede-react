@@ -7,7 +7,7 @@ const LOGIN_ROUTE = "/login"
 
 export function login(email, password) {
 
-    authorizationHeader = "Basic " + base64.encode(email + ":" + password)
+    const authorizationHeader = "Basic " + base64.encode(email + ":" + password)
     console.log('authorizationHeader='+authorizationHeader)
     return fetch(API_URL + AUTH_ROUTE + LOGIN_ROUTE,  {
         method: 'GET',
@@ -24,5 +24,25 @@ export function login(email, password) {
             console.log('ERROR in User service')
             console.log(error)
         })
-}   
+}
+
+export function signup(user) {
+    console.log(API_URL + AUTH_ROUTE + SIGNUP_ROUTE)
+    console.log(JSON.stringify(user))
+    return fetch(API_URL + AUTH_ROUTE + SIGNUP_ROUTE,  {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+        body: JSON.stringify(user)})
+        .then((response) => {
+            console.log("--- SIGNUP SUCCESSFULL ---")
+            return response
+        })
+        .catch((error) => {
+            console.log('ERROR in User service')
+            console.log(error)
+        })
+}
  

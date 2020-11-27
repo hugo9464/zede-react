@@ -4,6 +4,7 @@ import { Card } from 'react-native-material-ui';
 
 import { connect } from 'react-redux'
 import { getSummary } from '../services/weighing.service'
+import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis, VictoryStack, VictoryZoomContainer } from "victory-native";
 
 
 class ProfilePage extends React.Component {
@@ -11,7 +12,7 @@ class ProfilePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            summary: [],
+            summaryData: [''],
         };
     }
 
@@ -21,10 +22,19 @@ class ProfilePage extends React.Component {
     }
 
     componentDidMount() {
-        // getSummary(this.props.userToken).then((summaryResponse) => {
-        //     console.log(summaryResponse)
-        //     this.setState({ summary: summaryResponse })
-        // });
+        getSummary(this.props.userToken).then((summaryResponse) => {
+            this.addDataSummary(summaryResponse.BLUE, "Ménagère")
+            this.addDataSummary(summaryResponse.GREEN, "Verre")
+            console.log(this.state.summaryData)
+
+        });
+    }
+
+    addDataSummary(summary, weighingType) {
+        const newSummary = { x: weighingType, y: summary.total} 
+        this.setState(prevState => ({
+            summaryData: [...prevState.summaryData, newSummary]
+          }))
     }
 
     render() {
@@ -51,6 +61,10 @@ class ProfilePage extends React.Component {
                     </View>
 
                 </View>
+                <VictoryBar
+                    data={this.state.summaryData}
+                    labels={({ datum }) => datum.x}
+                />
                 <View style={styles.logout_button}>
                     <Button title="Se déconnecter" onPress={() => this.logout()} />
                 </View>

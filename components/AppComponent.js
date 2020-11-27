@@ -2,10 +2,12 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import BottomTabNavigator from '../navigation/BottomTabNavigator';
+import HomeStack from '../navigation/HomeNavigator'
 
 import { connect } from 'react-redux'
 
 import SignInPage from './SignInPage'
+import SignUpPage from './SignUpPage'
 
 const Stack = createStackNavigator();
 
@@ -34,17 +36,20 @@ class AppComponent extends React.Component {
                         ) : this.props.userToken == null ? (
                             // No token found, user isn't signed in
                             <Stack.Screen
-                                name="SignIn"
-                                component={SignInPage}
+                                name="Home"
+                                component={HomeStack}
                                 options={{
-                                    title: 'Sign in',
-                                    // When logging out, a pop animation feels intuitive
-                                    animationTypeForReplace: this.props.isSignout ? 'pop' : 'push',
+                                    headerShown: false,
+                                    headerMode: 'none'
                                 }}
                             />
                         ) : (
                                     // User is signed in
-                                    <Stack.Screen name="Root" component={BottomTabNavigator} />
+                                    <Stack.Screen name="Root" component={BottomTabNavigator}                                 
+                                    options={{
+                                        headerShown: false,
+                                        headerMode: 'none'
+                                    }}/>
                                 )}
                     </Stack.Navigator>
                 </NavigationContainer>
