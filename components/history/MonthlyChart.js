@@ -3,13 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { VictoryBar, VictoryChart, VictoryGroup, VictoryAxis, VictoryStack, VictoryZoomContainer, VictoryLine, VictoryArea, VictoryScatter } from "victory-native";
 
-class   MonthlyChart extends React.Component {
-
-    constructor(props) {
-        super(props)
-        this.state = {
-        }
-    }
+class MonthlyChart extends React.Component {
 
     getWeeks() {
         let weeks = ["1 - 7", "8 - 14", "15 - 21", "22 - 28"]
@@ -27,13 +21,15 @@ class   MonthlyChart extends React.Component {
     }
 
     render() {
-        return (
+
+        const {brownData, greenData} = this.props
+        return (    
                 <VictoryChart
                     height={200}
-                    animate={{
-                        duration: 1000,
-                        onLoad: { duration: 1000 }
-                    }}
+                    // animate={{
+                    //     duration: 500,
+                    //     onLoad: { duration: 1000 }
+                    // }}
                 >
 
                     <VictoryAxis 
@@ -51,13 +47,10 @@ class   MonthlyChart extends React.Component {
                     
                     >
                         <VictoryBar
-                            data={this.props.brownData}
+                            data={brownData}
                         />
                         <VictoryBar
-                            data={this.props.greenData}
-                        />
-                        <VictoryBar
-                            data={[{ x: 1, y: 3 }, { x: 2, y: 4 }, { x: 3, y: 9 }, { x: 4, y: 3 }, { x: 5, y: 4 }]}
+                            data={greenData}
                         />
                     </VictoryGroup>
                 </VictoryChart>
