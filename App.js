@@ -9,7 +9,7 @@ import { COLOR, ThemeContext, getTheme } from 'react-native-material-ui';
 import AppComponent from './components/AppComponent'
 
 import * as Font from 'expo-font';
-import { AppLoading } from 'expo';
+import AppLoading from 'expo-app-loading';
 
 const uiTheme = {
   palette: {

@@ -1,48 +1,50 @@
-import base64 from 'react-native-base64'
+import base64 from "react-native-base64";
 
-const API_URL = "http://78.123.247.250:8080/api";
-const AUTH_ROUTE = "/auth/1"
-const SIGNUP_ROUTE = "/signup"
-const LOGIN_ROUTE = "/login"
+const API_URL = "http://localhost:3000/api";
+const USER_ROUTE = "/user";
+const SIGNUP_ROUTE = "/signup";
+const LOGIN_ROUTE = "/login";
 
 export function login(email, password) {
-
-    const authorizationHeader = "Basic " + base64.encode(email + ":" + password)
-    console.log('authorizationHeader='+authorizationHeader)
-    return fetch(API_URL + AUTH_ROUTE + LOGIN_ROUTE,  {
-        method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            'Authorization': authorizationHeader,
-          }})
-        .then((response) => {
-            console.log("--- LOGIN SUCCESSFULL ---")
-            console.log("Authorization="+response.headers.get("Authorization"))
-            return response.headers.get("Authorization")
-        })
-        .catch((error) => {
-            console.log('ERROR in User service')
-            console.log(error)
-        })
+  const authorizationHeader = "Basic " + base64.encode(email + ":" + password);
+  return fetch(API_URL + USER_ROUTE + LOGIN_ROUTE, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+      password: password,
+    }),
+  })
+    .then((response) => {
+      console.log("--- LOGIN SUCCESSFULL ---");
+      console.log(response.body)
+      return response.body;
+    })
+    .catch((error) => {
+      console.log("ERROR in User service");
+      console.log(error);
+    });
 }
 
 export function signup(user) {
-    console.log(API_URL + AUTH_ROUTE + SIGNUP_ROUTE)
-    console.log(JSON.stringify(user))
-    return fetch(API_URL + AUTH_ROUTE + SIGNUP_ROUTE,  {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-        body: JSON.stringify(user)})
-        .then((response) => {
-            console.log("--- SIGNUP SUCCESSFULL ---")
-            return response
-        })
-        .catch((error) => {
-            console.log('ERROR in User service')
-            console.log(error)
-        })
+  console.log(API_URL + USER_ROUTE + SIGNUP_ROUTE);
+  console.log(JSON.stringify(user));
+  return fetch(API_URL + USER_ROUTE + SIGNUP_ROUTE, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  })
+    .then((response) => {
+      console.log("--- SIGNUP SUCCESSFULL ---");
+      return response;
+    })
+    .catch((error) => {
+      console.log("ERROR in User service");
+      console.log(error);
+    });
 }
- 
